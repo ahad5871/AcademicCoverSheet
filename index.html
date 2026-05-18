@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Academic Cover Sheet</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Font Awesome for GitHub & LinkedIn icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+  <div class="app">
+    <!-- Left Form Panel -->
+    <div class="form-panel">
+      <h1><span class="color1">Academic</span> <span class="color2">Cover Sheet</span></h1>
+
+      <label>Type</label>
+      <select id="type">
+        <option value="Assignment">Assignment</option>
+        <option value="Lab Report">Lab Report</option>
+        <option value="Project Report">Project Report</option>
+        <option value="Thesis Report">Thesis Report</option>
+      </select>
+
+      <label>Topic</label>
+      <input type="text" id="topic" placeholder="Enter topic" />
+
+      <div class="row">
+        <input type="text" id="courseTitle" placeholder="Course Title" />
+        <input type="text" id="courseCode" placeholder="Course Code" />
+      </div>
+
+      <label>Experiment Date</label>
+      <input type="date" id="experimentDate" />
+
+      <label>Submission Date</label>
+      <input type="date" id="submissionDate" />
+
+      <div class="box green">
+        <h3>SUBMITTED BY</h3>
+        <input type="text" id="studentName" placeholder="Name" />
+        <input type="text" id="studentId" placeholder="ID" />
+        <div class="row">
+          <select id="section">
+            <option value="">Section</option>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+            <option>D</option>
+            <option>E</option>
+            <option>F</option>
+            <option>G</option>
+            <option>H</option>
+            <option>I</option>
+            <option>J</option>
+          </select>
+          <select id="program">
+            <option value="">Program</option>
+            <option>Regular</option>
+            <option>Evening</option>
+          </select>
+        </div>
+        <select id="studentDepartment">
+          <option value="">Select Department</option>
+          <option>Electrical and Electronic Engineering</option>
+          <option>Computer Science and Engineering</option>
+          <option>Civil Engineering</option>
+          <option>Mechanical Engineering</option>
+          <option>Electronics and Communication Engineering</option>
+          <option>Textile Engineering</option>
+          <option>Industrial and Production Engineering</option>
+          <option>Business Administration</option>
+          <option>English</option>
+          <option>Law</option>
+          <option>Pharmacy</option>
+          <option>Architecture</option>
+          <option>Mathematics</option>
+          <option>Physics</option>
+          <option>Chemistry</option>
+        </select>
+      </div>
+
+      <div class="box blue">
+        <h3>SUBMITTED TO</h3>
+        <input type="text" id="teacherName" placeholder="Teacher Name" />
+        <select id="designation">
+          <option value="">Select Designation</option>
+          <option>Lecturer</option>
+          <option>Senior Lecturer</option>
+          <option>Assistant Professor</option>
+          <option>Associate Professor</option>
+          <option>Professor</option>
+          <option>Head of Department</option>
+          <option>Chairman</option>
+        </select>
+        <select id="teacherDepartment">
+          <option value="">Select Department</option>
+          <option>Electrical and Electronic Engineering</option>
+          <option>Computer Science and Engineering</option>
+          <option>Civil Engineering</option>
+          <option>Mechanical Engineering</option>
+          <option>Electronics and Communication Engineering</option>
+          <option>Textile Engineering</option>
+          <option>Industrial and Production Engineering</option>
+          <option>Business Administration</option>
+          <option>English</option>
+          <option>Law</option>
+          <option>Pharmacy</option>
+          <option>Architecture</option>
+          <option>Mathematics</option>
+          <option>Physics</option>
+          <option>Chemistry</option>
+        </select>
+      </div>
+
+      <button onclick="downloadPDF()">Export PDF</button>
+    </div>
+
+    <!-- Right Preview Panel -->
+    <div class="preview-wrapper">
+      <div class="cover-page" id="coverPage">
+        <div class="logo-box">
+          <img id="previewLogo" src="assets/nub-logo.jpeg" alt="Northern University Bangladesh Logo" />
+        </div>
+
+        <h2 id="previewTitle">Assignment on</h2>
+
+        <div class="info-table">
+          <div class="info-row">
+            <div class="info-label">Topic:</div>
+            <div class="info-value" id="pTopic"></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Course Title:</div>
+            <div class="info-value" id="pCourseTitle"></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Course Code:</div>
+            <div class="info-value" id="pCourseCode"></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Experiment Date:</div>
+            <div class="info-value" id="pExperimentDate"></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Submission Date:</div>
+            <div class="info-value" id="pSubmissionDate"></div>
+          </div>
+        </div>
+
+        <div class="submit-section">
+          <div class="submit-box">
+            <h3>SUBMITTED TO</h3>
+            <p><b>Name:</b> <span id="pTeacherName"></span></p>
+            <p><span id="pDesignation"></span></p>
+            <p><span id="pTeacherDepartment"></span></p>
+          </div>
+          <div class="submit-box">
+            <h3>SUBMITTED BY</h3>
+            <p><b>Name:</b> <span id="pStudentName"></span></p>
+            <p><b>ID:</b> <span id="pStudentId"></span></p>
+            <p><b>Section:</b> <span id="pSection"></span></p>
+            <p><b>Program:</b> <span id="pProgram"></span></p>
+            <p><b>Department of:</b> <span id="pStudentDepartment"></span></p>
+          </div>
+        </div>
+
+        <div class="remarks"><b>Remarks</b></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-line"></div>
+    <p class="developed-text">Developed by</p>
+    <h3 class="developer-name">Md Ahad Hossen</h3>
+    <div class="developer-buttons">
+      <a href="https://github.com/ahad5871" target="_blank" class="dev-btn github-btn"><i class="fab fa-github"></i>
+        GitHub</a>
+      <a href="https://linkedin.com/in/md-ahad-hossen-a824391b8" target="_blank" class="dev-btn linkedin-btn"><i
+          class="fab fa-linkedin-in"></i> LinkedIn</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
